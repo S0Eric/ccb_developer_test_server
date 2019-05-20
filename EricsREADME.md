@@ -20,7 +20,7 @@ Exceptions cause a 500 status, unless the ENVIRONMENT variable is set to DEVELOP
 and then exception details are shown:
 ```
 > set ENVIRONMENT=DEVELOPMENT
-> php -S localhost:8080
+> php -S localhost:3000
 ```
 
 ## Approach
@@ -100,14 +100,14 @@ support listing all actors that are in a movie, but the detail endpoint simply r
 
 Here are some sample URLs:
 
-[All movies with "QU" in the title - http://localhost:8080/movies?t=qu](http://localhost:8080/movies?t=qu)
+[All movies with "QU" in the title - http://localhost:3000/movies?t=qu](http://localhost:3000/movies?t=qu)
 
-[Same as above, but rated PG - http://localhost:8080/movies?t=qu&r=pg](http://localhost:8080/movies?t=qu&r=pg)
+[Same as above, but rated PG - http://localhost:3000/movies?t=qu&r=pg](http://localhost:3000/movies?t=qu&r=pg)
 
-[Details for movie with film_id=1 - http://localhost:8080/movie/1](http://localhost:8080/movie/1)
+[Details for movie with film_id=1 - http://localhost:3000/movie/1](http://localhost:3000/movie/1)
 
-[List of actors in movie with film_id=1 - http://localhost:8080/movie-actors?mid=1](http://localhost:8080/movie-actors?mid=1)
+[List of actors in movie with film_id=1 - http://localhost:3000/movie-actors?mid=1](http://localhost:3000/movie-actors?mid=1)
 
-[Details for actor with actor_id=1 - http://localhost:8080/actor/1](http://localhost:8080/actor/1)
+[Details for actor with actor_id=1 - http://localhost:3000/actor/1](http://localhost:3000/actor/1)
 
 

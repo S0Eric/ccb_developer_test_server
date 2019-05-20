@@ -21,7 +21,7 @@ $app = new \Slim\App($container);
 
 $container['db'] = function($c) {
     $database = $user = $password = "sakila";
-    $host = "localhost"; //"mysql";
+    $host = "mysql"; // Change to localhost when running using 'PHP -S localhost:port'.
 
     $pdo = new PDO("mysql:host={$host};dbname={$database};charset=utf8", $user, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
