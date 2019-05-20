@@ -1,0 +1,36 @@
+{
+  "tables": [
+    {
+      "table": "film",
+      "sql": "select f.*, c.name as category from film as f left join film_category as fc on fc.film_id = f.film_id left join category as c on c.category_id = fc.category_id",
+      "path": "movies",
+      "detail-path": "movie",
+      "filters": [
+        {
+          "label": "title",
+          "field-name": "title",
+          "match-type": "contains"
+        },
+        {
+          "label": "category",
+          "field-name": "category"
+        },
+        {
+          "label": "rating",
+          "field-name": "rating"
+        }
+      ],
+      "children": [
+        {
+          "table": "actor",
+          "name": "actors",
+          "map-table": "select a.* from film_actor as fa inner join actor as a on a.actor_id = fa.actor_id where fa.film_id = :parent_id"
+        }
+      ]
+    },
+    {
+      "table": "rental",
+      "path":  "rentals"
+    }
+  ]
+}
