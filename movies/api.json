@@ -7,24 +7,24 @@
       "detail-path": "movie",
       "filters": [
         {
-          "label": "title",
-          "field-name": "title",
+          "param": "t",
+          "field": "title",
           "match-type": "contains"
         },
         {
-          "label": "category",
-          "field-name": "category"
+          "param": "c",
+          "field": "c.name"
         },
         {
-          "label": "rating",
-          "field-name": "rating"
+          "param": "r",
+          "field": "rating"
         }
       ],
       "children": [
         {
           "table": "actor",
           "name": "actors",
-          "map-table": "select a.* from film_actor as fa inner join actor as a on a.actor_id = fa.actor_id where fa.film_id = :parent_id"
+          "sql": "select a.* from film_actor as fa inner join actor as a on a.actor_id = fa.actor_id where fa.film_id = :parent_id"
         }
       ]
     },

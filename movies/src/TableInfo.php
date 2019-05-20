@@ -9,6 +9,6 @@ class TableInfo {
 		$tableName = $tableDef['table'];
 		$this->baseGetAllSql = $tableDef['sql'] ?? "select * from $tableName";
 		$this->path = '/'.$tableDef['path'];
-		$this->filters = $tableDef['filters'] ?? NULL;
+		$this->filters = $tableDef['filters'] ?? array();
 	}
 }

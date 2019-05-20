@@ -30,26 +30,45 @@ $app->get('/xmovies', function (Request $request, Response $response, array $arg
     return $response->withJson($data);
 });
 
-//$getAll = function (Request $request, Response $response, array $args) {
-//    $db = $this->get('db');
-
-//	$stm = $db->prepare('select * from film');
-//	$stm->execute();
-//	$data = $stm->fetchAll();
-//    return $response->withJson($data);
-//}
-
+// Create a route for each main table 
 $apiJsonStr = file_get_contents("../api.json");
 $apiConfig = json_decode($apiJsonStr, true);
 foreach ($apiConfig['tables'] as $tableDef) {
 	$tableInfo = new TableInfo($tableDef);
-	$app->get($tableInfo->path, function (Request $request, Response $response, array $args) use ($tableInfo) {
+	$app->get($tableInfo->path, function (Request $request, Response $response, array $args) use ($app, $tableInfo) {
+		$queryParams = $request->getQueryParams();
+		$sqlArgs = array();
+		$sql = $tableInfo->baseGetAllSql;
+		$sqlKwd = 'where';
+		$pIdx = 0;
+		foreach ($tableInfo->filters as $filter) {
+			$filterParam = $filter['param'];
+			$filterVal = $queryParams[ $filterParam ] ?? NULL;
+			if (isset($filterVal)) {
+				$filterField = $filter['field'] ?? $filterParam;
+				$filterMatchType = $filter['match-type'] ?? 'equals';
+				$pName = ":p$pIdx";
+				$pIdx += 1;
+				if (\strcasecmp($filterMatchType, 'contains') == 0) {
+					$sql .= " $sqlKwd $filterField like $pName";
+					$sqlArgs[$pName] = '%'.$filterVal.'%';
+				}
+				else {
+					$sql .= " $sqlKwd $filterField = $pName";
+					$sqlArgs[$pName] = $filterVal;
+				}
+				$sqlKwd = 'and';
+			}
+		}
+		//return $sql."\n".var_export($sqlArgs, true);
 		$db = $this->get('db');
-		$stm = $db->prepare($tableInfo->baseGetAllSql);
-		$stm->execute();
+		$stm = $db->prepare($sql);
+		$stm->execute($sqlArgs);
 		$data = $stm->fetchAll();
 		return $response->withJson($data);
 	});
+
+
 }
  
 $app->run();
